@@ -2,9 +2,7 @@ let AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 exports.handler = function (event, context, callback) {
 	ddb.scan({
-		TableName: 'products',
-		ExpressionAttributeValues: {},
-		FilterExpression: ''
+		TableName: 'products'
 	}, function (err, data) {
 		if (err) {
 			console.log('Error at list product handler');
