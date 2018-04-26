@@ -2,7 +2,9 @@ let AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
-	console.log('Starting get product handler ' + event['pathParameters']['id']);
+	
+	console.log('Starting delete product handler ' + event['pathParameters']['id']);
+	
 	ddb.delete({
 		TableName: 'products',
 		Key: { 'id': id }
