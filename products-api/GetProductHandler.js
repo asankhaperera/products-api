@@ -1,14 +1,18 @@
 let AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 exports.handler = function (event, context, callback) {
-	ddb.scan({
-		TableName: 'products'
+
+	console.log('Starting get product handler ' + JSON.stringify(event));
+
+	ddb.get({
+		TableName: 'products',
+		Key: { 'id': event.path }
 	}, function (err, data) {
 		if (err) {
-			console.log('Error at list product handler');
-			callback(null, 'Error listing products ' + err);
+			console.log('Error at get product handler');
+			callback(null, 'Error getting product ' + err);
 		} else {
-			console.log('Successfully completed list product handler');
+			console.log('Successfully completed get product handler');
 			callback(null, data.Items);
 		}
 	});
