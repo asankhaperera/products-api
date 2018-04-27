@@ -3,17 +3,21 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
 	
-	console.log('Starting delete product handler ' + event['pathParameters']['id']);
-	
-	ddb.delete({
+	console.log('Request to delete product with id: ' + event['pathParameters']['id']);
+
+	ddb.deleteItem({
 		TableName: 'products',
-		Key: { 'id': id }
+		Key: { 'id': event['pathParameters']['id'] }
 	}, function (err, data) {
 		if (err) {
-			console.log('Error at delete product handler');
-			callback(null, 'Error deleteing product ' + err);
+			console.log('Product not found for id: ' + event['pathParameters']['id']);
+			let response = {
+				"statusCode": 404,
+				"body": 'Product with id: ' + event['pathParameters']['id'] + ' not found.'
+			}
+			callback(null, response);
 		} else {
-			console.log('Successfully completed delete product handler.');
+			console.log('Successfully deleted product with id: ' + event['pathParameters']['id']);
 			let response = {
 				"statusCode": 204
 			}
