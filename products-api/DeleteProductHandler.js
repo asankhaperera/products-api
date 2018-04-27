@@ -5,9 +5,12 @@ exports.handler = function (event, context, callback) {
 	
 	console.log('Request to delete product with id: ' + event['pathParameters']['id']);
 
-	ddb.deleteItem({
+	ddb.delete({
 		TableName: 'products',
-		Key: { 'id': event['pathParameters']['id'] }
+		Key: { 'id': event['pathParameters']['id'] },
+		Expected: {
+			Exists: true
+		}
 	}, function (err, data) {
 		if (err) {
 			console.log('Product not found for id: ' + event['pathParameters']['id']);
