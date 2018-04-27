@@ -3,7 +3,7 @@ var uuid = require('uuid');
 const ddb = new AWS.DynamoDB.DocumentClient();
 exports.handler = function (event, context, callback) {
 
-	console.log('Starting create product handler ' + JSON.stringify(event));
+	console.log('Request to create a product with: ' + JSON.stringify(event));
 
 	ddb.put({
 		TableName: 'products',
@@ -14,10 +14,10 @@ exports.handler = function (event, context, callback) {
 		}
 	}, function (err, data) {
 		if (err) {
-			console.log('Error at create product handler');
+			console.log('Error creating a product' + err);
 			callback(null, 'Error creating product ' + err);
 		} else {
-			console.log('Successfully completed create product handler');
+			console.log('Successfully created product handler');
 			callback(null, 'Created product ' + event.name);
 		}
 	});
